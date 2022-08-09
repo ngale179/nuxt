@@ -37,6 +37,7 @@
       <template v-for="(item, index) in listData">
         <tr>
           <td>{{index}}</td>
+          <td>{{item.id}}</td>
           <td><NuxtLink :to="`/detail/${item.id}`">{{item.title}}</NuxtLink></td>
           <td>{{item.note}}</td>
           <td>{{item.isCompleted}}</td>
