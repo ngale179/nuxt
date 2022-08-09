@@ -7,4 +7,15 @@ export default defineNuxtConfig({
       routes: ['/user','/user/detail', '/blog']
     }
   },
+  css: ["~/assets/css/tailwind.scss"],
+  build: {
+    postcss: {
+      postcssOptions: {
+        plugins: {
+          tailwindcss: {},
+          autoprefixer: {},
+        },
+      },
+    },
+  },
 })

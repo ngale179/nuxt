@@ -1,6 +1,6 @@
 <template>
-  <header>
-    The Header
+  <header class="flex">
+    <NuxtLink to="/">Home</NuxtLink>
   </header>
 </template>
 
@@ -11,5 +11,7 @@ export default {
 </script>
 
 <style scoped>
-
+  header{
+    @apply flex flex-row;
+  }
 </style>
