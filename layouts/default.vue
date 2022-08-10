@@ -1,9 +1,9 @@
 <template>
-  <div>
     <TheHeader />
-    <slot />
-    <LazyTheFooter />
-  </div>
+    <main>
+      <slot />
+    </main>
+    <TheFooter />
 </template>
 
 <script>
@@ -12,6 +12,8 @@ export default {
 }
 </script>
 
-<style scoped>
-
+<style scoped lang="scss">
+  main{
+    height: calc(100vh - 100px);
+  }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <header class="flex">
+  <header>
     <NuxtLink to="/">Home</NuxtLink>
   </header>
 </template>

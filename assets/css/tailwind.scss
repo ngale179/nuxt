@@ -1,3 +1,18 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+header{
+    @apply h-[50px] py-0 px-10 flex items-center;
+    a{
+        @apply font-bold;
+    }
+}
+
+main{
+    @apply py-0 px-10 my-10;
+}
+
+footer{
+    @apply py-0 px-10 font-bold h-[50px] flex items-center;
+}
