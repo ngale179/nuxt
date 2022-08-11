@@ -48,7 +48,7 @@ export default defineEventHandler(() => {
       },
       {
         id: 6,
-        title: 'Title 6',
+        title: 'A Title 6',
         note: 'Note 6',
         isCompleted: true,
         createdOn: '2022-08-09T00:00:00Z',

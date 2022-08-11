@@ -5,16 +5,14 @@
   const route = useRoute();
   const { data } = await useAsyncData('detail', () => $fetch("/api/data"));
   const getDetail = data.value.data.filter(c => c.id == route.params.id);
-  let detail = reactive(
-    {
-      data: []
-    }
-  );
-
-  detail.data = getDetail[0];
+  console.log(getDetail);
+  let detail = getDetail[0];
 </script>
 <template>
-  <DetailComponent :detail="detail.data"></DetailComponent>
+  <DetailComponent :detail="detail" v-if="detail"></DetailComponent>
+  <span v-else>
+    ID not found!
+  </span>
 </template>
 
 <style scoped>

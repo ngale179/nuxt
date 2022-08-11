@@ -22,6 +22,15 @@ module.exports = {
         80: "#33A7B9",
         DEFAULT: "#0091A8"
       },
+      neutrals: {
+        5: "#FFFFFF",
+        10: "#F4F4F4",
+        20: "#D3D6D7",
+        40: "#A9AEB1",
+        60: "#7E868A",
+        80: "#545E64",
+        DEFAULT: "#2A363E",
+      },
     }
   },
   plugins: [],

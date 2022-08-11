@@ -1,5 +1,5 @@
 <script setup>
-  const { data } = await useAsyncData(() => $fetch("/api/data"));
+  const { data } = await useAsyncData('data', () => $fetch("/api/data"));
   let listData = reactive(
     {
       data: []
@@ -25,11 +25,21 @@
     return 0;
   }
 
-  let isIconSort = ref(false);
   let isOpenSort = ref(false);
   let labelSort = ref('Title');
-  let chooseSort = (value) => {
-    isOpenSort.value = !isOpenSort.value;
+  let isSort = ref(false);//false => desc, true => asc
+  let nameSort = ref('title');
+  let chooseSort = (value = '', sort = '') => {
+    if(sort === '') {
+      sort = isSort.value;
+    } else {
+      isSort.value = sort;
+    }
+    if(value === '') {
+      value = nameSort.value;
+    } else {
+      value = value;
+    }
     if(value === 'title'){
       labelSort.value = 'Title';
       listData.data.sort(sortTitle);
@@ -37,10 +47,12 @@
       labelSort.value = 'Expired Date';
       listData.data.sort(sortExpiredDate);
     }
+
+    if(sort) listData.data = listData.data.reverse();
   }
 
   const { createData } = await useAsyncData(
-    () => $fetch("/api/crud/create",
+    () => $fetch("/api/crud/todo",
       {
         method: 'POST',
         body: []
@@ -48,7 +60,7 @@
     )
   );
   const { editData } = await useAsyncData(
-    () => $fetch("/api/crud/edit",
+    () => $fetch("/api/crud/todo",
       {
         method: 'PUT',
         body: []
@@ -56,10 +68,17 @@
     )
   );
   const { deleteData } = await useAsyncData(
-    () => $fetch("/api/crud/delete",
+    () => $fetch("/api/crud/todo",
       {
         method: 'DELETE',
         body: []
+      }
+    )
+  );
+  const { detailData } = await useAsyncData(
+    () => $fetch("/api/crud/todo",
+      {
+        method: 'GET'
       }
     )
   );
@@ -73,11 +92,11 @@
     <div class="sort relative">
       <div class="sortName">
         <label for="" @click="isOpenSort = true">{{labelSort}}</label>
-        <img src="../assets/imgs/icon-line-navigation.svg" alt="" width="16" height="16" @click="isIconSort = !isIconSort" :style="(isIconSort)?'transform: rotate(0.5turn);':''">
+        <img src="../assets/imgs/icon-line-navigation.svg" alt="" width="16" height="16" @click="chooseSort(), isSort = !isSort" :style="(isSort)?'transform: rotate(0.5turn);':''">
       </div>
       <div class="sorts absolute" v-if="isOpenSort">
-        <div class="active" @click="chooseSort('title')">Title</div>
-        <div @click="chooseSort('expiredDate')">Expired Date</div>
+        <div class="active" @click="chooseSort('title'), isOpenSort = !isOpenSort;">Title</div>
+        <div @click="chooseSort('expiredDate'), isOpenSort = !isOpenSort;">Expired Date</div>
       </div>
     </div>
   </div>
@@ -115,14 +134,15 @@
 .filter{
   @apply flex flex-row items-center;
   .search{
-    @apply flex flex-row rounded-[2px] border-solid border-[1px];
+    @apply flex flex-row h-[40px] inline flex justify-between items-center text-neutrals px-[10px] bg-neutrals-5 border-solid border-[1px] rounded-[2px] border-neutrals-20;
     input{
-      @apply text-[14px] h-[40px] w-[500px] px-3;
+      @apply text-[14px] h-[38px] w-[500px] px-3 outline-none;
     }
   }
   .sort{
+    @apply w-[200px] h-[40px] inline flex justify-between items-center text-neutrals px-[10px] bg-neutrals-5 border-solid border-[1px] rounded-[2px] border-neutrals-20 ml-2;
     .sortName{
-      @apply flex flex-row items-center justify-between w-[100px] mx-2;
+      @apply flex flex-row items-center justify-between w-full mx-2;
       label{
         @apply cursor-pointer;
       }
@@ -131,8 +151,13 @@
       }
     }
     .sorts{
-      @apply cursor-pointer top-[24px] left-0 border-solid p-1;
-
+      @apply cursor-pointer top-[40px] left-0 right-0 z-20 w-[200px] bg-neutrals-5;
+      div{
+        @apply h-[36px] text-left px-[10px] text-sm cursor-pointer mt-[10px] flex items-center hover:bg-neutrals-10;
+        &.active{
+          @apply text-navigation;
+        }
+      }
     }
   }
 }
